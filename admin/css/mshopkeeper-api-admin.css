@@ -1,0 +1,27 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+ .notice{
+   padding: 7px 12px;
+ }
+
+ .container {
+    padding: 10px 30px;
+    border: 2px dashed #d0d0d0;
+    margin-bottom: 30px;
+    padding-bottom: 40px;
+}
+
+.container input[type="text"],.container select {
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 7px;
+    max-width: 100%;
+}
+
+.container .label-field {
+    display: inline-block;
+    min-width: 130px;
+}
