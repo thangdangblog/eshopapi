@@ -96,8 +96,9 @@ class Mshopkeeper_Api_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mshopkeeper-api-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( 'jquery-new', plugin_dir_url( __FILE__ ) . 'js/jquery-3.5.1.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mshopkeeper-api-admin.js', array( 'jquery-new' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'misa_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
 }

@@ -78,6 +78,8 @@ class Mshopkeeper_Api
 
         $this->load_dependencies();
         $this->set_locale();
+        $this->runSettingPage(); 
+        $this->runAjax(); 
         $this->define_admin_hooks();
         $this->define_public_hooks();
     }
@@ -136,12 +138,22 @@ class Mshopkeeper_Api
         /**
          * Class xử lý dữ liệu lưu db
          */
-				require_once MSHOPKEEPER_API_PATH_PLUGIN . 'includes/class-mshopkeeper-api-data.php';
-				
-				/**
-				 * Xử lý gọi API
-				 */
+        require_once MSHOPKEEPER_API_PATH_PLUGIN . 'includes/class-mshopkeeper-api-data.php';
+                
+        /**
+         * Xử lý gọi API
+         */
         require_once MSHOPKEEPER_API_PATH_PLUGIN . 'includes/class-mshopkeeper-api-endpoint.php';
+
+        /**
+         * Xử lý gọi Ajax
+         */
+        require_once MSHOPKEEPER_API_PATH_PLUGIN . 'includes/class-mshopkeeper-api-ajax.php';
+
+        /**
+         * Xử lý gọi API
+         */
+        require_once MSHOPKEEPER_API_PATH_PLUGIN . 'admin/functions/functions.php';
 
 
         $this->loader = new Mshopkeeper_Api_Loader();
@@ -170,6 +182,10 @@ class Mshopkeeper_Api
     private function runSettingPage()
     {
         $settingPage = new MshopkeeperApiSettingPage();
+    }
+
+    private function runAjax(){
+        $ajax = new MshopkeeperApiAjax();
     }
 
     /**

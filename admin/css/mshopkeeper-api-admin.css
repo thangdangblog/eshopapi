@@ -4,24 +4,35 @@
  */
 
  .notice{
-   padding: 7px 12px;
+    padding: 10px 12px;
+  }
+ 
+  .container {
+     padding: 10px 30px;
+     border: 2px dashed #d0d0d0;
+     margin-bottom: 30px;
+     padding-bottom: 40px;
+ }
+ 
+ .container input[type="text"],.container select {
+     width: 50%;
+     margin-bottom: 20px;
+     padding: 7px;
+     max-width: 100%;
+ }
+ 
+ .container .label-field {
+     display: inline-block;
+     min-width: 130px;
  }
 
- .container {
-    padding: 10px 30px;
-    border: 2px dashed #d0d0d0;
-    margin-bottom: 30px;
-    padding-bottom: 40px;
+ span.sync-text-alert {
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
 }
 
-.container input[type="text"],.container select {
-    width: 50%;
-    margin-bottom: 20px;
-    padding: 7px;
-    max-width: 100%;
-}
-
-.container .label-field {
-    display: inline-block;
-    min-width: 130px;
+span.sync-text-alert .number-product {
+    color: red;
 }

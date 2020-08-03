@@ -57,6 +57,14 @@ class MshopkeeperApiData
         return get_option('MisaEnvironment') ? get_option('MisaEnvironment') : "";
     }
 
+    public function setBranchCode($branchCode){
+        return $this->updateMisaOption('MisaBranchCode', $branchCode);
+    }
+
+    public function getBranchCode(){
+        return get_option('MisaBranchCode') ? get_option('MisaBranchCode') : "";
+    }
+
     // Lưu key vào cơ sở dữ liệu
     public function updateMisaOption($key,$value){
         if((get_option($key) || get_option($key) == "") && get_option($key) != $value){

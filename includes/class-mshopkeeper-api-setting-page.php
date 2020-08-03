@@ -17,6 +17,12 @@ class MshopkeeperApiSettingPage
         add_menu_page($page_title, $menu_title,$capability,$menu_slug,[$this,'showSettingPage'], $icon_url,$position = null );
     }
 
+    // Hiển thị trang view
+    public function showSettingPage(){
+        require MSHOPKEEPER_API_PATH_PLUGIN . "admin/views/admin-page-setting-api.php";
+    }
+
+    // Xử lý dữ liệu khi người dùng lưu thông tin xác thực
     public function handleSaveAuthenticator(){
         // Xác thực form
         if(!isset($_POST['misa_nonce']) || !wp_verify_nonce($_POST['misa_nonce'],'form_save_infomation_misa') ){
@@ -38,15 +44,40 @@ class MshopkeeperApiSettingPage
         }
     }
 
-    public function showSettingPage(){
-        require MSHOPKEEPER_API_PATH_PLUGIN . "admin/views/admin-page-setting-api.php";
+    public function handleSaveBranch(){
+        // Xác thực form
+        if(!isset($_POST['misa_nonce']) || !wp_verify_nonce($_POST['misa_nonce'],'form_save_infomation_misa') ){
+            return false;
+        }
+
+        if(isset($_POST['save_branch'])){
+            
+            $branchCode = isset($_POST['misa_branch']) && $_POST['misa_branch'] != "null" ? $_POST['misa_branch'] : "";
+
+            if(!$branchCode) {
+                return wp_redirect($_SERVER['HTTP_REFERER']."&message=branch-false");
+            }
+
+            // Khởi tạo đối tượng lưu dữ liệu
+            $MshopkeeperApiData = new MshopkeeperApiData();
+
+            if($MshopkeeperApiData->setBranchCode($branchCode)){
+                return wp_redirect($_SERVER['HTTP_REFERER']."&message=save-branch-success");
+            }
+
+            return wp_redirect($_SERVER['HTTP_REFERER']."&message=save-branch-false");
+
+        }
+
     }
 
+    // Khởi tạo hook
     private function runHookSettingPage(){
         add_action('admin_menu',[$this,'addMenuPage']);
         add_action('admin_action_action_save_authenticator',[$this,'handleSaveAuthenticator']);
+        add_action('admin_action_action_save_branch',[$this,'handleSaveBranch']);
     }
 
-}
+    
 
-$hello = new MshopkeeperApiSettingPage();
+}
