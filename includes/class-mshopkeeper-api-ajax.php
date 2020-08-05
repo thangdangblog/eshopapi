@@ -11,7 +11,7 @@ class MshopkeeperApiAjax{
 
     // Xử lý đồng bộ khi nhấn nút đồng bộ
     public function syncProduct(){
-        $products = $this->MshopkeeperApiEndPoint->getAllProduct(1);
+        $products = $this->MshopkeeperApiEndPoint->getAllProduct(24);
 
         $status = "true";
         // $product = $[count($products)-1];
@@ -34,20 +34,22 @@ class MshopkeeperApiAjax{
                     $status = "false";
                 }
             }
-
-            die($status);
         }
-        
 
+        // Đồng bộ kết quả lấy sản phẩm
+        $this->MshopkeeperApiData = new MshopkeeperApiData();
+        $this->MshopkeeperApiData->setLastSyncDate();
+        
+        die($status);
     }
 
     // Lưu sản phẩm 
     public function saveProduct($product){
-        $nameProduct =  $product->Name ? $product->Name : " ";  
-        $sellingPrice =  $product->SellingPrice ;  
-        $description =  $product->Description ? $product->Description : " ";  
-        $sku =  $product->Code;   
-        $thumbnailUrl =  $product->Picture;   
+        $nameProduct =  isset($product->Name) ? $product->Name : " ";  
+        $sellingPrice =  isset($product->SellingPrice) ? $product->SellingPrice : 0 ;  
+        $description =  isset($product->Description) ? $product->Description : " ";  
+        $sku =  isset($product->Code) ? $product->Code : "";   
+        $thumbnailUrl =  isset($product->Picture) ? $product->Picture : null;   
 
         $product_id = wp_insert_post([
             "post_type" => "product",

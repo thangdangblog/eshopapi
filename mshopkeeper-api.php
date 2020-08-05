@@ -30,10 +30,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( !class_exists( 'WooCommerce' ) ) {
-  exit();
-} 
-
 
 /**
  * Currently plugin version.
@@ -67,6 +63,9 @@ function activate_mshopkeeper_api() {
  */
 function deactivate_mshopkeeper_api() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-mshopkeeper-api-deactivator.php';
+
+	MshopkeeperApiData::deleteAllOption();
+
 	Mshopkeeper_Api_Deactivator::deactivate();
 }
 

@@ -32,7 +32,14 @@ class MshopkeeperApiEndPoint
             "IsIncludeChainOfBranch" => false,
         ];
 
-        return $this->callApi($endPoint, $header, $body,"POST")->Data;
+        $res = $this->callApi($endPoint, $header, $body,"POST");
+
+        if(isset($res->Code) && $res->Code == 200){
+            return $res->Data;
+        }
+        
+        return false;
+
     }
 
     public function getAllCategories(){
@@ -45,7 +52,7 @@ class MshopkeeperApiEndPoint
 
         $res = $this->callApi($endPoint,$header,null,"GET");
 
-        if($res->Code == 200){
+        if(isset($res->Code) && $res->Code == 200){
             return $res->Data;
         }
         return false;
@@ -65,7 +72,7 @@ class MshopkeeperApiEndPoint
             "SortField"=> "Code",
             "SortType"=> "1",
             "IncludeInventory" => true,
-            "LastSyncDate" => null
+            "LastSyncDate" => $this->MshopkeeperApiData->getLastSyncDate()
         ];
 
         $res = $this->callApi($endPoint, $header, $body,"POST");
@@ -105,7 +112,7 @@ class MshopkeeperApiEndPoint
             "SortType"=> "1",
             "IncludeInventory" => true,
             "InventoryItemCategoryID" => $this->getAllCategories()[0]->Id,
-            "LastSyncDate" => null
+            "LastSyncDate" => $this->MshopkeeperApiData->getLastSyncDate()
         ];
 
         $res = $this->callApi($endPoint, $header, $body,"POST");
@@ -119,7 +126,18 @@ class MshopkeeperApiEndPoint
 
     // Kiểm tra xem token còn hạn không, nếu hết thì lấy lại
     public function checkRequest(){
-        if(!$this->getAllCategories){
+
+        $endPoint = "/api/v1/categories/list?includeInactive=false";
+
+        $header = [
+            "Authorization" => "Bearer " .  $this->MshopkeeperApiData->getAccessToken(),
+            "CompanyCode" => $this->MshopkeeperApiData->getCompanyCode()
+        ];
+
+        $res = $this->callApi($endPoint,$header,null,"GET");
+
+        // Kiểm tra với mã lỗi 401 - Token hết hạn
+        if(isset($res->ErrorType) && $res->ErrorType == 401){
             $appId = $this->MshopkeeperApiData->getAppID(); 
             $nameConnection = $this->MshopkeeperApiData->getDomain(); 
             $secretCode = $this->MshopkeeperApiData->getSecretCode(); 

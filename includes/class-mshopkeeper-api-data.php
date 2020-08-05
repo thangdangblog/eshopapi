@@ -65,6 +65,32 @@ class MshopkeeperApiData
         return get_option('MisaBranchCode') ? get_option('MisaBranchCode') : "";
     }
 
+    public function setLastSyncDate(){
+        
+        return $this->updateMisaOption('MisaLastSyncDate', getCurrentUTC());
+    }
+
+    public function getLastSyncDate(){
+        return get_option('MisaLastSyncDate') ? get_option('MisaLastSyncDate') : "";
+    }
+
+    public function deleteAllOption(){
+        $settingNames = [
+            'MisaAppID',
+            'MisaDomain',
+            'MisaSecretCode',
+            'MisaAccessToken',
+            'MisaCompanyCode',
+            'MisaEnvironment',
+            'MisaBranchCode',
+        ];
+
+        foreach($settingNames as $settingName){
+            delete_option( $settingName );
+        }
+
+    }
+
     // Lưu key vào cơ sở dữ liệu
     public function updateMisaOption($key,$value){
         if((get_option($key) || get_option($key) == "") && get_option($key) != $value){

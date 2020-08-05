@@ -33,7 +33,7 @@ class MshopkeeperApiConnection
         $body = [
             "Domain" => $this->domain,
             "AppID" => $this->appID,
-            "LoginTime" => gmdate("Y-m-d\TH:i:s\Z"),
+            "LoginTime" => getCurrentUTC(),
             "SignatureInfo" => $this->getSignatureInfo(),
         ];
 

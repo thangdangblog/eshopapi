@@ -62,17 +62,14 @@
         <input type="submit" class="button button-primary" name="save_branch" value="Lưu chi nhánh">
         </form>
     </div>
-    <?php endif; ?>
 
     <div class="container">
         <h2>Đồng bộ sản phẩm</h2>
-        <?php if(!$MshopkeeperApiEndPoint->getNumberProduct()):?>
-            <?php  showWarningNotice("Chi nhánh không có sản phẩm hoặc không tồn tại"); ?>
-        <?php endif; ?>
         <input type="submit" class="button button-primary sync-button" name="save_branch" value="Đồng bộ sản phẩm">
         <span class="sync-text-alert">Có <span class="number-product"><?php echo $MshopkeeperApiEndPoint->getNumberProduct(); ?></span> sản phẩm chưa đồng bộ</span>
-        
     </div>
+    <?php endif; ?>
+
 
 
 </div>
