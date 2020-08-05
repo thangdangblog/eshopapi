@@ -20,17 +20,18 @@
  * @subpackage Mshopkeeper_Api/includes
  * @author     Đặng Quốc Thắng <thangdangblog@gmail.com>
  */
-class Mshopkeeper_Api_Activator {
+class Mshopkeeper_Api_Activator
+{
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function activate() {
+    /**
+     * Short Description. (use period)
+     *
+     * Long Description.
+     *
+     * @since    1.0.0
+     */
+    public static function activate()
+    {
 
-	}
-
+		}
 }

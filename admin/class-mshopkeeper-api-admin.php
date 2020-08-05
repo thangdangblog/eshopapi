@@ -101,4 +101,10 @@ class Mshopkeeper_Api_Admin {
 		wp_localize_script( $this->plugin_name, 'misa_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
+	public function addPluginLink($links){
+		$settings_link = '<a href="'.admin_url().'?page=mshopkeeper-api-setting">Settings</a>'; 
+  	array_unshift($links, $settings_link); 
+  	return $links; 
+	}
+
 }

@@ -30,7 +30,8 @@ class Mshopkeeper_Api_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		// Xóa các cài đặt trước đó (ngoại trừ LastSyncDate)
+		MshopkeeperApiData::deleteAllOption();
 	}
 
 }

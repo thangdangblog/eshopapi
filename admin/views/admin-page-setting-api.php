@@ -1,4 +1,10 @@
 <?php
+
+    if ( !class_exists( 'WooCommerce' ) ) {
+        showErrorNotice("Plugin chỉ hoạt động với plugin WooCommerce");
+        exit();
+    }
+
     $MshopkeeperApiData = new MshopkeeperApiData();
     $MshopkeeperApiEndPoint = new MshopkeeperApiEndPoint();
 ?>
