@@ -30,6 +30,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+if ( !class_exists( 'WooCommerce' ) ) {
+  exit();
+} 
+
+
 /**
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org

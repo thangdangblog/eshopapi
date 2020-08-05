@@ -91,4 +91,5 @@ class MshopkeeperApiConnection
         $text = json_encode((object)$args);
         return hash_hmac("sha256",$text,$this->secretCode);
     }
+
 }

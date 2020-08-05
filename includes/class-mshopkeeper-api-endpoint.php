@@ -4,12 +4,13 @@ class MshopkeeperApiEndPoint
 {
     private $url;
     private $MshopkeeperApiData;
+    private $MshopkeeperApiConnection;
 
     public function __construct()
     {
         $this->MshopkeeperApiData = new MshopkeeperApiData();
+        $this->checkRequest();
         $this->setUrl();
-        $this->getAllBranch();
     }
 
     public function setUrl()
@@ -114,6 +115,17 @@ class MshopkeeperApiEndPoint
 
         // Trả về số lượng sản phẩm chưa đồng bộ
         return $res->Total;
+    }
+
+    // Kiểm tra xem token còn hạn không, nếu hết thì lấy lại
+    public function checkRequest(){
+        if(!$this->getAllCategories){
+            $appId = $this->MshopkeeperApiData->getAppID(); 
+            $nameConnection = $this->MshopkeeperApiData->getDomain(); 
+            $secretCode = $this->MshopkeeperApiData->getSecretCode(); 
+            $this->MshopkeeperApiConnection = new MshopkeeperApiConnection($appId,$nameConnection,$secretCode);
+            $this->MshopkeeperApiConnection->getToken();
+        }
     }
 
     public function callApi($endPoint = null, $header = null, $body = null,$method = "POST")
