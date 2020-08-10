@@ -6,7 +6,6 @@ class MshopkeeperApiSettingPage
         $this->runHookSettingPage();
     }
 
-
     public function addMenuPage(){
         $page_title = "MshopKeeper API Setting Page";
         $menu_title = "Mshop API Setting";
@@ -71,11 +70,31 @@ class MshopkeeperApiSettingPage
 
     }
 
+    public function createAttributeProduct(){
+        $variation_data = ['Color','Size'];
+
+        foreach($variation_data as $attribute){
+
+            $taxonomy = 'pa_'.$attribute;
+
+            if(! taxonomy_exists( $taxonomy )){
+                register_taxonomy( $taxonomy, 'product_variation', [
+                    'hierarchical' => false,
+                    'label' => ucfirst( $attribute ),
+                    'query_var' => true,
+                    'rewrite' => array( 'slug' => sanitize_title($attribute) )
+                ] );
+            }
+        }
+        delete_transient( 'wc_attribute_taxonomies' );
+    }
+
     // Khởi tạo hook
     private function runHookSettingPage(){
         add_action('admin_menu',[$this,'addMenuPage']);
         add_action('admin_action_action_save_authenticator',[$this,'handleSaveAuthenticator']);
         add_action('admin_action_action_save_branch',[$this,'handleSaveBranch']);
+        add_action('init',[$this,'createAttributeProduct']);
     }
 
     

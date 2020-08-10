@@ -14,21 +14,18 @@ class MshopkeeperApiAjax{
         $products = $this->MshopkeeperApiEndPoint->getAllProduct(24);
 
         $status = "true";
-        // $product = $[count($products)-1];
         foreach($products as $product){
             // Kiểm tra xem sản phẩm có thuộc tính hay không
             if($product->ListDetail){
-                foreach($product->ListDetail as $productChild){
-                    try{
-                        $this->saveProduct($productChild);
-                    }catch(Exception $e){
-                        // Misa
-                        $status = "false";
-                    }
+                // Lưu sản phẩm có biến thể
+                try{
+                    WC_Helper_Product::saveVariationProduct($product,$product->Code);
+                }catch(Exception $e){
+                    $status = "false";
                 }
             }else{
                 try{
-                    $this->saveProduct($product);
+                    WC_Helper_Product::saveSimpleProduct($product,$product->Code);
                 }catch(Exception $e){
                     // Misa
                     $status = "false";
@@ -43,8 +40,9 @@ class MshopkeeperApiAjax{
         die($status);
     }
 
-    // Lưu sản phẩm 
-    public function saveProduct($product){
+
+    // Lưu sản phẩm đơn giản
+    public function saveSimpleProduct($product){
         $nameProduct =  isset($product->Name) ? $product->Name : " ";  
         $sellingPrice =  isset($product->SellingPrice) ? $product->SellingPrice : 0 ;  
         $description =  isset($product->Description) ? $product->Description : " ";  
@@ -73,10 +71,6 @@ class MshopkeeperApiAjax{
         return $productWoo->save();
     }
 
-    public function syncCategories(){
-
-    }
-
     private function runAjaxHook(){
         add_action("wp_ajax_sync_product",[$this,'syncProduct']); 
         add_action("wp_ajax_nopriv_sync_product",[$this,'syncProduct']); 
@@ -86,7 +80,6 @@ class MshopkeeperApiAjax{
         $upload_dir = wp_upload_dir();
         $image_data = file_get_contents($image_url);
         $filename = toSlug($name_image).".png";
-
 
         if(wp_mkdir_p($upload_dir['path']))
           $file = $upload_dir['path'] . '/' . $filename;

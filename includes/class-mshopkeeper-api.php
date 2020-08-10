@@ -79,6 +79,7 @@ class Mshopkeeper_Api
         $this->load_dependencies();
         $this->set_locale();
         $this->runSettingPage(); 
+        $this->runCustomCheckOut(); 
         $this->runAjax(); 
         $this->define_admin_hooks();
         $this->define_public_filter();
@@ -155,6 +156,16 @@ class Mshopkeeper_Api
          * Xử lý gọi API
          */
         require_once MSHOPKEEPER_API_PATH_PLUGIN . 'admin/functions/functions.php';
+        
+        /**
+         * WooCommerce Custom
+         */
+        require_once MSHOPKEEPER_API_PATH_PLUGIN . 'includes/class-woocommerce-helper.php';
+        
+        /**
+         * Custom Checkout WooCommerce
+         */
+        require_once MSHOPKEEPER_API_PATH_PLUGIN . 'includes/class-mshopkeeper-checkout.php';
 
 
         $this->loader = new Mshopkeeper_Api_Loader();
@@ -187,6 +198,10 @@ class Mshopkeeper_Api
 
     private function runAjax(){
         $ajax = new MshopkeeperApiAjax();
+    }
+
+    private function runCustomCheckOut(){
+        $checkout = new MshopkeeperApiCheckout();
     }
 
     /**

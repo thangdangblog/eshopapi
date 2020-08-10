@@ -97,6 +97,10 @@ class Mshopkeeper_Api_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mshopkeeper-api-public.js', array( 'jquery' ), $this->version, false );
+		
+		if(is_checkout()){
+			wp_enqueue_script('mshopkeeper-checkout-public', plugin_dir_url( __FILE__ ) . 'js/mshopkeeper-checkout-public.js', array( 'jquery' ), $this->version, false );
+		}
 
 	}
 

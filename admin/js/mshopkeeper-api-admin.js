@@ -24,6 +24,7 @@ class MshopKeeperApiSetting {
             },
             dataType: '',
             success: (res) => {
+                console.log(res);
                 if(res == "true") this.showTextSyncComplete();
                 
             },

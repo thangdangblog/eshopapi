@@ -9,8 +9,8 @@ class MshopkeeperApiEndPoint
     public function __construct()
     {
         $this->MshopkeeperApiData = new MshopkeeperApiData();
-        $this->checkRequest();
         $this->setUrl();
+        $this->checkRequest();
     }
 
     public function setUrl()
@@ -136,14 +136,31 @@ class MshopkeeperApiEndPoint
 
         $res = $this->callApi($endPoint,$header,null,"GET");
 
+
         // Kiểm tra với mã lỗi 401 - Token hết hạn
-        if(isset($res->ErrorType) && $res->ErrorType == 401){
+        if(gettype($res) == "integer" && $res == 401){
             $appId = $this->MshopkeeperApiData->getAppID(); 
             $nameConnection = $this->MshopkeeperApiData->getDomain(); 
             $secretCode = $this->MshopkeeperApiData->getSecretCode(); 
             $this->MshopkeeperApiConnection = new MshopkeeperApiConnection($appId,$nameConnection,$secretCode);
             $this->MshopkeeperApiConnection->getToken();
         }
+    }
+
+    public function getAllProvinces(){
+        $endPoint = "api/v1/locations/bykindandparentid?kind=1";
+
+        $header = [
+            "Authorization" => "Bearer " .  $this->MshopkeeperApiData->getAccessToken(),
+            "CompanyCode" => $this->MshopkeeperApiData->getCompanyCode()
+        ];
+
+        $res = $this->callApi($endPoint,$header,null,"GET");
+
+        if($res->Code == 200){
+            return $res->Data;
+        }
+        return false;
     }
 
     public function callApi($endPoint = null, $header = null, $body = null,$method = "POST")
@@ -155,7 +172,15 @@ class MshopkeeperApiEndPoint
             "headers" => $header,
             "timeout" => 30,
         ];
-        $res = json_decode(wp_remote_retrieve_body(wp_remote_request($url, $args)));
+
+        $res = wp_remote_request($url, $args);
+
+        // Token hết hạn
+        if(wp_remote_retrieve_response_code($res) == 401){
+            return 401;
+        }
+
+        $res = json_decode(wp_remote_retrieve_body($res));
 
         // Dữ liệu bị lỗi
         if (isset($res->ErrorType)) {
